@@ -1,15 +1,16 @@
-version: '3.8'
+version: '3.9'
 services:
   db:
     image: postgres:14.1-alpine
     restart: always
     environment:
+      - POSTGRES_DB=studentmanagement
       - POSTGRES_USER=studentmanagement
       - POSTGRES_PASSWORD=askthestudent!
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes: 
-      - db:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    
 volumes:
-  db:
-    driver: local
+  postgres_data:
