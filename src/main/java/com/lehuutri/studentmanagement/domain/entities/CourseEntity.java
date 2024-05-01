@@ -1,13 +1,17 @@
 package com.lehuutri.studentmanagement.domain.entities;
 
+import java.io.Serializable;
 import java.util.List;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,17 +23,22 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @Table(name = "Course")
-public class CourseEntity {
+public class CourseEntity implements Serializable {
     @Id
     private String courseId;
+
+    @NotBlank
     private String name;
-    private String lecture;
+
+    @NotBlank
+    private String lecturer;
+
+    @NotNull
     private Integer year;
+
     private String note;
 
-    @ManyToMany
-    @JoinTable(name = "Course_Student",
-        joinColumns = @JoinColumn(name = "courseId"),
-        inverseJoinColumns = @JoinColumn(name = "studentId"))
-    private List<StudentEntity> students;
+    @OneToMany(mappedBy = "course")
+    @Fetch(FetchMode.SELECT)
+    private List<CourseStudentEntity> students;
 }

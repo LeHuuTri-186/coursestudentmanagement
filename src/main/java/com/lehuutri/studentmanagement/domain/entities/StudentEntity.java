@@ -5,8 +5,10 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,10 +23,18 @@ import lombok.NoArgsConstructor;
 public class StudentEntity {
     @Id
     private String studentId;
+
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String address;
+
+    @NotNull
     private LocalDate birthday;
+
     private String note;
-    @ManyToMany(mappedBy = "students")
-    private List<CourseEntity> courses;
+
+    @OneToMany(mappedBy = "student")
+    private List<CourseStudentEntity> courses;
 }
